@@ -2,7 +2,9 @@
 
 set -e
 
-function --diff { git diff --cached "$@"; }
+diff_args=("$@")
+
+function --diff { git diff "${diff_args[@]}" "$@"; }
 function --n-changes { --name-only | wc -l | xargs echo; }
 function --name-only { --diff --name-only; }
 function --name-status { --diff --name-status; }
