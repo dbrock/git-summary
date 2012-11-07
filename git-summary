@@ -18,16 +18,8 @@ function --simple-summary {
   fi | --normalize-space
 }
 
-function --summary {
-  case `--n-changes` in
-    0) ;;
-    1) --simple-summary ;;
-    *) --shortstat ;;
-  esac
-}
-
-if test $# = 0; then
-  git add -A && git commit -m "~`--summary`"
-else
-  bash -c "$*" && git add -A && git commit -m "~$ $*"
-fi
+case `--n-changes` in
+  0) ;;
+  1) --simple-summary ;;
+  *) --shortstat ;;
+esac
