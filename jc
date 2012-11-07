@@ -2,33 +2,32 @@
 
 set -e
 
-function die { printf 'fatal: %s\n' "$*" >&2 && exit 1; }
-
-function --count { --name-only | wc -l | xargs echo; }
 function --diff { git diff --cached "$@"; }
+function --n-changes { --name-only | wc -l | xargs echo; }
 function --name-only { --diff --name-only; }
 function --name-status { --diff --name-status; }
+function --normalize-space { xargs echo; }
 function --shortstat { --diff --shortstat; }
 function --stat { --diff --stat=45 | sed \$d; }
 
-function --simple-index-summary {
+function --simple-summary {
   if [[ `--stat` ]]; then
     --name-status | sed "s'`--name-only`'`--stat`'"
   else
     --name-status
-  fi | xargs echo
+  fi | --normalize-space
 }
 
-function --index-summary {
-  case `--count` in
-    0) die 'No changes' ;;
-    1) --simple-index-summary | xargs echo ;;
+function --summary {
+  case `--n-changes` in
+    0) ;;
+    1) --simple-summary ;;
     *) --shortstat ;;
   esac
 }
 
 if test $# = 0; then
-  git add -A && git commit -m "~`--index-summary`"
+  git add -A && git commit -m "~`--summary`"
 else
   bash -c "$*" && git add -A && git commit -m "~$ $*"
 fi
