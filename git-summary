@@ -11,13 +11,14 @@ function --name-status { --diff --name-status; }
 function --normalize-space { xargs echo; }
 function --shortstat { --diff --shortstat; }
 function --stat { --diff --stat=45 | sed \$d; }
+function --status-only { --name-status | awk '{print $1}'; }
 
 function --simple-summary {
   if [[ `--stat` ]]; then
-    --name-status | sed "s'`--name-only`'`--stat`'"
+    echo `--status-only` `--stat`
   else
-    --name-status
-  fi | --normalize-space
+    --name-status | --normalize-space
+  fi
 }
 
 case `--n-changes` in
