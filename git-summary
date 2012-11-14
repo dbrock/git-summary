@@ -10,7 +10,7 @@ function --name-only { --diff --name-only; }
 function --name-status { --diff --name-status; }
 function --normalize-space { xargs echo; }
 function --shortstat { --diff --shortstat; }
-function --stat { --diff --stat=45 | sed \$d; }
+function --stat { --diff --stat=60 | sed \$d; }
 function --status-only { --name-status | awk '{print $1}'; }
 
 function --simple-summary {
